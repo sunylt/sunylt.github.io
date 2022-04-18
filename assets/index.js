@@ -89,7 +89,7 @@ const service = window.service = new emedia.Service({
 
 		// 流的增加，仅用于统计人数，不处理流
 		onAddStream(stream) {
-			console.log("stream add>>>>", stream)
+			console.log(new Date().getTime() + "stream add>>>>", stream)
 			const nickname = stream.located() ? "我" : stream.owner.ext.nickname || stream.owner.name
 			if(stream.located() && stream.type == 0){
 				$('#header').style.display = "none" // 自己的流进来
@@ -102,7 +102,7 @@ const service = window.service = new emedia.Service({
 
 		// 某成员的流退出（包含本地流、音视频流，共享桌面等）
 		onUpdateStream(stream, updateObj) {
-			console.log("stream update>>>>", stream)
+			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
 			
 			// 针对桌面共享单独处理
