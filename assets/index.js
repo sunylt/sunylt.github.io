@@ -334,6 +334,7 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
+					alert('local stream joined')
 					$("#localstream video").srcObject = mediaStream
 				}else{
 					$("#" + stream.memId + " video").srcObject = mediaStream
