@@ -163,12 +163,12 @@ function publishMediaStream(constaints, success, error){
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
 		// console.error("pubs", a, b)
-		document.getElementById("testVideo").srcObject = b
-		// service.push(_pubS, function(stream){
-		// 	success && success()
-		// }, function(err){
-		// 	error && error(err)
-		// })
+		// document.getElementById("testVideo").srcObject = b
+		service.push(_pubS, function(stream){
+			success && success()
+		}, function(err){
+			error && error(err)
+		})
 	}, function(err){
 		error && error(err)
 	})
