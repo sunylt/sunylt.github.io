@@ -4,9 +4,161 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Demo for EmediaSDK.js</title>
+	<style>html{
+			width: 100%;
+			height: 100%;
+		}
+		body{
+			font: 14px arial;
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			display: flex;
+			flex-flow: column;
+			align-items: center;
+			position: relative;
+		}
+		button{
+			margin-bottom: 10px;
+		}
+
+		#header{
+			position: absolute;
+			top: 30%;
+			padding: 20px;
+			background-color: rgb(77, 182, 252);
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			align-content: space-between;
+			flex-direction: column;
+			z-index: 1;
+			border-radius: 3px;
+		}
+
+		#header input{
+			padding: 3px;
+			height: 18px;
+			border: 1px solid #333;
+			margin-bottom: 10px;
+			border-radius: 3px;
+		}
+
+		#ui-video-container{
+			width: 100%;
+			height: 100%;
+			border: 1px solid #333;
+			background-color: #333;
+			position: relative;
+		}
+
+		#ui-video-title{
+			height: 32px;
+			line-height: 32px;
+			padding-left: 10px;
+			background-color: #eee;
+		}
+
+		#ui-video-main{
+			background-color: #333;
+		}
+
+		#ui-video-list{
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			display: flex;
+    	flex-direction: column;
+    	flex-wrap: wrap-reverse;
+		}
+
+		#ui-video-list div{
+			position: relative;
+			z-index: 2;
+			margin: 10px 10px 10px 0;
+			width: 96px;
+			height: 72px;
+			background-color: rgb(1, 77, 219);
+			
+		}
+
+		#ui-video-list div span{
+			position: absolute;
+			left: 5px;
+			top: 5px;
+			color: #fff;
+			padding: 0 5px;
+			background-color: rgb(0, 0, 0, .4);
+			font-size: 12px;
+		}
+
+		#ui-video-list video{
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		#ui-video-list .mainScreen{
+			position: absolute;
+    	width: 100%;
+    	height: 100%;
+    	top: 0;
+    	left: 0;
+			margin: 0;
+			z-index: 1;
+			background-color: rgb(216, 109, 109);
+			border: none;
+			margin: 0;
+		}
+
+		#ui-video-list .mainScreen video{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+
+		#ui-video-bar{
+			position: absolute;
+			bottom: 10px;
+			text-align: center;
+			width: 100%;
+			z-index: 10;
+		}
+
+		#ui-video-bar span{
+			margin: 0 5px;
+		}
+
+		#app{
+			width: 100%;
+			height: 100%;
+		}</style>
 </head>
 <body>
-	hello tee!
+	<div id="header">
+		<div><input type="text" placeholder="房间名（默认room001）"></div>
+		<div><button id="joinRoom">加入</button></div> 
+	</div>
+	<!-- <div id="app"> -->
+
+	
+	<div id="ui-video-container">
+		<div id="ui-video-list"></div>
+		<div id="ui-video-bar">
+			<button id="changeCamera">切换摄像头</button>
+			<button id="userCamera">使用前置</button>
+			<button id="backCamera">使用后置</button>
+			<button id="aoff">设置/取消静音</button>
+			<button id="voff">关闭/打开图像</button>
+			<button id="shareDesktop">共享/停止桌面</button>
+			<button id="exitRoom">自己退出</button>
+			<button id="destroyRoom">解散房间</button>
+		</div>
+	</div>
+	<script src="/src.a2b27638.js"></script>
 </body>
 </html>
