@@ -1,4 +1,3 @@
-import EmediaSDK from "./EmediaSDK"
 
 function $(selector) {
 	return document.querySelector(selector)
