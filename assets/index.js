@@ -3,6 +3,11 @@ function $(selector) {
 	return document.querySelector(selector)
 }
 
+<script>
+  // VConsole will be exported to `window.VConsole` by default.
+  var vConsole = new window.VConsole();
+</script>
+
 // class RtcWidget{
 // 	localStream = null
 // 	localShareStream = null
@@ -334,7 +339,6 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
-					alert('local stream joined')
 					$("#localstream video").srcObject = mediaStream
 				}else{
 					$("#" + stream.memId + " video").srcObject = mediaStream
