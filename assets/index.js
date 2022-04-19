@@ -128,8 +128,8 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					try{
-						console.log('play user mediaStream, not add audio track.')
-						// customMediaStream.addTrack(audioTrack)
+						console.log('play user mediaStream, add audio track.')
+						customMediaStream.addTrack(audioTrack)
 						$("#" + stream.memId + " video").srcObject = customMediaStream
 						$("#" + stream.memId + " video").play()
 					}catch(e){
