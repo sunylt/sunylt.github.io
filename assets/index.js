@@ -77,6 +77,7 @@ const service = window.service = new emedia.Service({
 					console.log(`Play local mediaStream.`)	
 					$("#localstream video").srcObject = mediaStream
 					$("#localstream video").play()
+					$("#localstream video").muted = true // 自己永远静音
 					if(pausedPlayers){
 						pausedPlayers.forEach(memberPlayer => memberPlayer.play())
 						pausedPlayers = []
