@@ -49,7 +49,7 @@ function createMiniVideoPalyer(id, name){
 	try{
 		videoTag.play()
 	}catch(e){
-		
+
 	}
 	return item
 }
@@ -129,8 +129,10 @@ const service = window.service = new emedia.Service({
 				}else{
 					try{
 						console.log('play user mediaStream, add audio track.123')		
-						$("#" + stream.memId + " video").srcObject = mediaStream
-						$("#" + stream.memId + " video").play()
+						setTimeout(() => {
+							$("#" + stream.memId + " video").srcObject = mediaStream
+							$("#" + stream.memId + " video").play()
+						}, 300)
 					}catch(e){
 						console.log("play user media error", e)
 					}
