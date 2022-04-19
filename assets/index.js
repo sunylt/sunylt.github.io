@@ -121,6 +121,7 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
+					emedia.enableVideoTracks(mediaStream, false)
 					emedia.enableVideoTracks(mediaStream, true)
 					$("#localstream video").srcObject = mediaStream
 					
