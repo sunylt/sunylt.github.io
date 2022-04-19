@@ -38,9 +38,7 @@ function createMiniVideoPalyer(id, name){
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
-	videoTag.muted = true
-	videoTag["webkit-playsinline"] = true
-	// videoTag.controls="controls"
+	videoTag.srcObject = new MediaStream()
 	nameTag.innerText = name
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
@@ -104,11 +102,11 @@ const service = window.service = new emedia.Service({
 		onUpdateStream(stream, updateObj) {
 			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
-			const videoTrack = mediaStream.getVideoTracks()[0]
-			const audioTrack = mediaStream.getAudioTracks()[0]
-			const customMediaStream = new MediaStream()
-			customMediaStream.addTrack(videoTrack)
-			customMediaStream.addTrack(audioTrack)
+			// const videoTrack = mediaStream.getVideoTracks()[0]
+			// const audioTrack = mediaStream.getAudioTracks()[0]
+			// const customMediaStream = new MediaStream()
+			// customMediaStream.addTrack(videoTrack)
+			// customMediaStream.addTrack(audioTrack)
 
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
@@ -119,15 +117,14 @@ const service = window.service = new emedia.Service({
 					localStream = stream
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
-						// $("#localstream video").muted = true
+						$('#localstream video').muted = true
 					}
 					$("#localstream video").srcObject = mediaStream
 					$("#localstream video").play()
 					
 				}else{
 					try{
-						console.log('play user mediaStream, add audio track.')
-						
+						console.log('play user mediaStream, add audio track.123')		
 						$("#" + stream.memId + " video").srcObject = mediaStream
 						$("#" + stream.memId + " video").play()
 					}catch(e){
