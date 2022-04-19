@@ -38,6 +38,9 @@ function createMiniVideoPalyer(id, name){
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
+	videoTag.muted = true
+	videoTag["webkit-playsinline"] = true
+	videoTag.controls="controls"
 	nameTag.innerText = name
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
@@ -116,7 +119,7 @@ const service = window.service = new emedia.Service({
 					localStream = stream
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
-						$("#localstream video").muted = true
+						// $("#localstream video").muted = true
 					}
 					$("#localstream video").srcObject = customMediaStream
 					$("#localstream video").play()
