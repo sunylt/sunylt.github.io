@@ -39,7 +39,9 @@ function createMiniVideoPalyer(id, name){
 	videoTag.autoplay = true
 	videoTag.playsInline = true
 	nameTag.innerText = name
-	videoTag.muted = true
+	if(id === "localstream"){
+		videoTag.muted = true
+	}
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
 	})
@@ -122,8 +124,8 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					try{
-						console.log('play user mediaStream, not add audio track.')
-						// customMediaStream.addTrack(audioTrack)
+						console.log('play user mediaStream, add audio track.')
+						customMediaStream.addTrack(audioTrack)
 						$("#" + stream.memId + " video").srcObject = customMediaStream
 						$("#" + stream.memId + " video").play()
 					}catch(e){
