@@ -285,12 +285,12 @@ $("#changeCamera").addEventListener("click", () => {
 })
 
 $("#voff").addEventListener("click", () => {
-	// localStream && service.voff(localStream, !localStream.voff)
-	if(localStream){
-		const _voff  = !localStream.voff
-		emedia.enableVideoTracks(localStream.getMediaStream(), true)
-    // service.current && service.current.voff(localStream, _voff)
-	}
+	localStream && service.voff(localStream, !localStream.voff)
+	// if(localStream){
+	// 	const _voff  = !localStream.voff
+	// 	emedia.enableVideoTracks(localStream.getMediaStream(), !_voff)
+  //   service.current && service.current.voff(localStream, _voff)
+	// }
 })
 
 $('#shareDesktop').addEventListener("click", () => {
