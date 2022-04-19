@@ -34,23 +34,17 @@ function createMiniVideoPalyer(id, name){
 	}
 	const item = document.createElement("div")
 	const videoTag = document.createElement("video")
-	// const audioTag = document.createElement("audio")
 	const nameTag = document.createElement("span")
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
 	nameTag.innerText = name
-	// audioTag.width = 1
-	// audioTag.height = 1
-	if(id === "localstream"){
-		videoTag.muted = true
-	}
+	videoTag.muted = true
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
 	})
 	item.appendChild(videoTag)
 	item.appendChild(nameTag)
-	// item.appendChild(audioTag)
 	$videoList.appendChild(item)
 	return item
 }
@@ -128,8 +122,8 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					try{
-						console.log('play user mediaStream, add audio track.')
-						customMediaStream.addTrack(audioTrack)
+						console.log('play user mediaStream, not add audio track.')
+						// customMediaStream.addTrack(audioTrack)
 						$("#" + stream.memId + " video").srcObject = customMediaStream
 						$("#" + stream.memId + " video").play()
 					}catch(e){
