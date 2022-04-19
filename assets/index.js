@@ -81,6 +81,10 @@ const service = window.service = new emedia.Service({
 					$("#localstream video").srcObject = mediaStream
 					$("#localstream video").play()
 				}else{
+					// 自动播放策略 https://developer.chrome.com/blog/autoplay/
+					// TRTC自动播放受限处理建议 https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-21-advanced-auto-play-policy.html 
+					// TRTC微信autoplay问题 https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-02-info-webrtc-issues.html#h2-8
+					// 实时音视频 TRTC 常见问题汇总---WebRTC篇 https://cloud.tencent.com/developer/article/1539376
 					console.log(`Play member's mediaStream.`)		
 					$("#" + stream.memId + " video").srcObject = mediaStream
 					$("#" + stream.memId + " video").play()
@@ -142,6 +146,8 @@ function createMiniVideoPalyer(id, name){
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
+	videoTag.muted = true
+	videoTag.setAttribute("muted", "muted")
 	nameTag.innerText = name
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
