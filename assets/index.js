@@ -121,7 +121,9 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
+					emedia.enableVideoTracks(mediaStream, true)
 					$("#localstream video").srcObject = mediaStream
+					
 				}else{
 					$("#" + stream.memId + " video").srcObject = mediaStream
 				}
@@ -173,9 +175,11 @@ function publishMediaStream(constaints, success, error){
 		service.push(_pubS, function(stream){
 			success && success()
 		}, function(err){
+			alert("Push Stream Error.")
 			error && error(err)
 		})
 	}, function(err){
+		alert("OpenUserMedia Error.")
 		error && error(err)
 	})
 }
@@ -194,11 +198,7 @@ function joinRtcRoom(roomId) {
 
 		// 加入房间并打开设备推流
 		service.join(() => {
-			// 流配置
-			publishMediaStream({
-				audio: true,
-				video: true
-			})
+			publishMediaStream({ audio: true, video: true }) // 流配置
 		})
 	})
 }
