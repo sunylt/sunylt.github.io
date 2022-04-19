@@ -122,14 +122,14 @@ const service = window.service = new emedia.Service({
 						// $("#localstream video").muted = true
 					}
 					$("#localstream video").srcObject = customMediaStream
-					$("#localstream video").play()
+					// $("#localstream video").play()
 					
 				}else{
 					try{
 						console.log('play user mediaStream, add audio track.')
 						
 						$("#" + stream.memId + " video").srcObject = customMediaStream
-						$("#" + stream.memId + " video").play()
+						// $("#" + stream.memId + " video").play()
 					}catch(e){
 						console.log("play user media error", e)
 					}
