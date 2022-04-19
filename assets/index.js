@@ -40,7 +40,7 @@ function createMiniVideoPalyer(id, name){
 	videoTag.playsInline = true
 	videoTag.muted = true
 	videoTag["webkit-playsinline"] = true
-	videoTag.controls="controls"
+	// videoTag.controls="controls"
 	nameTag.innerText = name
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
