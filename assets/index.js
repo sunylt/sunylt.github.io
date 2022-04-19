@@ -59,7 +59,7 @@ function removeVideoPlayer(id){
 
 const emedia = window.emedia = new EmediaSDK({
 	config: {
-    LOG_LEVEL: 5
+    LOG_LEVEL: 3
 	}
 })
 
@@ -122,6 +122,7 @@ const service = window.service = new emedia.Service({
 						createMiniVideoPalyer("localstream", '我')
 					}
 					$("#localstream video").srcObject = mediaStream
+					$("#localstream video").play()
 					
 				}else{
 					$("#" + stream.memId + " video").srcObject = mediaStream
