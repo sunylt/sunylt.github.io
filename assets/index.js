@@ -112,7 +112,6 @@ const service = window.service = new emedia.Service({
 			const audioTrack = mediaStream.getAudioTracks()[0]
 			const customMediaStream = new MediaStream()
 			customMediaStream.addTrack(videoTrack)
-			customMediaStream.addTrack(audioTrack)
 
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
@@ -129,7 +128,8 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					try{
-						console.log('play user mediaStream')
+						console.log('play user mediaStream now add audio track.')
+						customMediaStream.addTrack(audioTrack)
 						$("#" + stream.memId + " video").srcObject = customMediaStream
 						$("#" + stream.memId + " video").play()
 					}catch(e){
