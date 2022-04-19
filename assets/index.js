@@ -63,11 +63,6 @@ const service = window.service = new emedia.Service({
 		onUpdateStream(stream, updateObj) {
 			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
-			// const videoTrack = mediaStream.getVideoTracks()[0]
-			// const audioTrack = mediaStream.getAudioTracks()[0]
-			// const customMediaStream = new MediaStream()
-			// customMediaStream.addTrack(videoTrack)
-			// customMediaStream.addTrack(audioTrack)
 
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
@@ -84,6 +79,7 @@ const service = window.service = new emedia.Service({
 					$("#localstream video").play()
 					if(pausedPlayers){
 						pausedPlayers.forEach(memberPlayer => memberPlayer.play())
+						pausedPlayers = []
 					}
 				}else{
 					// 自动播放策略 https://developer.chrome.com/blog/autoplay/
@@ -92,6 +88,8 @@ const service = window.service = new emedia.Service({
 					// 实时音视频 TRTC 常见问题汇总---WebRTC篇 https://cloud.tencent.com/developer/article/1539376
 					console.log(`Play member's mediaStream.`)		
 					$("#" + stream.memId + " video").srcObject = mediaStream
+
+					// 如果localStream还没进来，已加入的成员 player 不调用 play()
 					if(localStream){
 						$("#" + stream.memId + " video").play()
 					}else{
