@@ -39,9 +39,6 @@ function createMiniVideoPalyer(id, name){
 	videoTag.autoplay = true
 	videoTag.playsInline = true
 	nameTag.innerText = name
-	if(id === "localstream"){
-		// videoTag.muted = true
-	}
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
 	})
@@ -109,7 +106,7 @@ const service = window.service = new emedia.Service({
 			const customMediaStream = new MediaStream()
 			customMediaStream.addTrack(videoTrack)
 			customMediaStream.addTrack(audioTrack)
-			
+
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
@@ -119,6 +116,7 @@ const service = window.service = new emedia.Service({
 					localStream = stream
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
+						$("#localstream video").muted = true
 					}
 					$("#localstream video").srcObject = customMediaStream
 					$("#localstream video").play()
