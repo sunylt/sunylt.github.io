@@ -107,7 +107,7 @@ const service = window.service = new emedia.Service({
 			const videoTrack = mediaStream.getVideoTracks()[0]
 			const customMediaStream = new MediaStream()
 			customMediaStream.addTrack(videoTrack)
-			
+
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
@@ -123,7 +123,7 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					$("#" + stream.memId + " video").srcObject = customMediaStream
-					$("#localstream video").play()
+					$("#" + stream.memId + " video").play()
 				}
 			}
 		},
