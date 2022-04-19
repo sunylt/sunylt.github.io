@@ -105,12 +105,11 @@ const service = window.service = new emedia.Service({
 			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
 			const videoTrack = mediaStream.getVideoTracks()[0]
+			const customMediaStream = new MediaStream()
+			customMediaStream.addTrack(videoTrack)
 			console.warn("+++++++++++++++", mediaStream)
 			// console.warn("+++++++++++++++", mediaStream.getVideoTracks())
 			console.log(videoTrack)
-			for(t in videoTrack){
-				console.log(t + " >>>> ", videoTrack[t])
-			}
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
@@ -121,11 +120,11 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
-					$("#localstream video").srcObject = mediaStream
+					$("#localstream video").srcObject = customMediaStream
 					$("#localstream video").play()
 					
 				}else{
-					$("#" + stream.memId + " video").srcObject = mediaStream
+					$("#" + stream.memId + " video").srcObject = customMediaStream
 				}
 			}
 		},
