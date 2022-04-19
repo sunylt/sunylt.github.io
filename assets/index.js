@@ -125,6 +125,7 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					$("#" + stream.memId + " video").srcObject = customMediaStream
+					$("#localstream video").play()
 				}
 			}
 		},
