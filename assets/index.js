@@ -34,11 +34,14 @@ function createMiniVideoPalyer(id, name){
 	}
 	const item = document.createElement("div")
 	const videoTag = document.createElement("video")
+	// const audioTag = document.createElement("audio")
 	const nameTag = document.createElement("span")
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
 	nameTag.innerText = name
+	// audioTag.width = 1
+	// audioTag.height = 1
 	if(id === "localstream"){
 		videoTag.muted = true
 	}
@@ -47,6 +50,7 @@ function createMiniVideoPalyer(id, name){
 	})
 	item.appendChild(videoTag)
 	item.appendChild(nameTag)
+	// item.appendChild(audioTag)
 	$videoList.appendChild(item)
 	return item
 }
@@ -105,8 +109,10 @@ const service = window.service = new emedia.Service({
 			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
 			const videoTrack = mediaStream.getVideoTracks()[0]
+			const audioTrack = mediaStream.getAudioTracks()[0]
 			const customMediaStream = new MediaStream()
 			customMediaStream.addTrack(videoTrack)
+			// customMediaStream.addTrack(audioTrack)
 
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
@@ -123,12 +129,11 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					try{
-						console.log('play mediaStream')
+						console.log('play user mediaStream')
 						$("#" + stream.memId + " video").srcObject = customMediaStream
 						$("#" + stream.memId + " video").play()
-						// $("#" + stream.memId + " video").muted = false
 					}catch(e){
-						console.log("xxxx", e)
+						console.log("play user media error", e)
 					}
 				}
 			}
