@@ -92,7 +92,7 @@ const service = window.service = new emedia.Service({
 			if(stream.located() && stream.type == 0){
 				$('#header').style.display = "none" // 自己的流进来
 			}else{
-				service.voff(0)
+				service.voff(localStream, 0)
 			}
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
