@@ -38,7 +38,6 @@ function createMiniVideoPalyer(id, name){
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
-	videoTag.srcObject = new MediaStream()
 	nameTag.innerText = name
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
@@ -46,11 +45,6 @@ function createMiniVideoPalyer(id, name){
 	item.appendChild(videoTag)
 	item.appendChild(nameTag)
 	$videoList.appendChild(item)
-	try{
-		videoTag.play()
-	}catch(e){
-
-	}
 	return item
 }
 
@@ -125,14 +119,11 @@ const service = window.service = new emedia.Service({
 					}
 					$("#localstream video").srcObject = mediaStream
 					$("#localstream video").play()
-					
 				}else{
 					try{
-						console.log('play user mediaStream, add audio track.123')		
-						setTimeout(() => {
-							$("#" + stream.memId + " video").srcObject = mediaStream
-							$("#" + stream.memId + " video").play()
-						}, 300)
+						console.log('play user mediaStream, add audio track.456')		
+						$("#" + stream.memId + " video").srcObject = mediaStream
+						$("#" + stream.memId + " video").play()
 					}catch(e){
 						console.log("play user media error", e)
 					}
