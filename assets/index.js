@@ -112,10 +112,6 @@ const service = window.service = new emedia.Service({
 			if(stream.type == 0){
 				if(stream.located()){
 					localStream = stream
-					if(!$('#localstream')){
-						createMiniVideoPalyer("localstream", '我')
-					}
-					$("#localstream video").srcObject = mediaStream
 				}else{
 					$("#" + stream.memId + " video").srcObject = mediaStream
 				}
@@ -166,6 +162,10 @@ function publishMediaStream(constaints, success, error){
 		// document.getElementById("testVideo").srcObject = b
 		service.push(_pubS, function(stream){
 			success && success()
+			if(!$('#localstream')){
+				createMiniVideoPalyer("localstream", '我')
+			}
+			$("#localstream video").srcObject = b
 		}, function(err){
 			error && error(err)
 		})
