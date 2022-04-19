@@ -1,11 +1,6 @@
 
-var vConsole = new window.VConsole();
-
-function $(selector) {
-	return document.querySelector(selector)
-}
-
-const username = localStorage.getItem("emedia_username")|| "ae_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) /// 随机一个名字
+const vConsole = new window.VConsole();
+const username = localStorage.getItem("x_userId")|| "x_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) // 随机一个名字
 const serverUrl = "https://private-preview-media.easemob.com"
 const appId = "827212690214645824"
 const appKey = "Y25Sak9nbnVlN1pLv3Bm5FCJBquhPsL5csn06k3AOlQ"
@@ -17,42 +12,7 @@ let currentMainScreenItem = null
 const $videoMain = $("#ui-video-main video") // 主视频
 const $videoList = $('#ui-video-list') // 成员列表
 
-localStorage.setItem("emedia_username", username)
-
-function swithVideoToMain(item){
-	if(currentMainScreenItem){
-		currentMainScreenItem.className = ""
-	}
-	item.className = "mainScreen"
-	currentMainScreenItem = item;
-
-}
-
-function createMiniVideoPalyer(id, name){
-	if($('#' + id)){
-		return $('#' + id)
-	}
-	const item = document.createElement("div")
-	const videoTag = document.createElement("video")
-	const nameTag = document.createElement("span")
-	item.id = id
-	videoTag.autoplay = true
-	videoTag.playsInline = true
-	nameTag.innerText = name
-	item.addEventListener("click", () => {
-		swithVideoToMain(item)
-	})
-	item.appendChild(videoTag)
-	item.appendChild(nameTag)
-	$videoList.appendChild(item)
-	return item
-}
-
-function removeVideoPlayer(id){
-  const videoTag = $("#" + id)
-	if(!videoTag) return
-	$videoList.removeChild(videoTag)
-}
+localStorage.setItem("x_userId", username)
 
 const emedia = window.emedia = new EmediaSDK({
 	config: {
@@ -153,6 +113,10 @@ const service = window.service = new emedia.Service({
 	}
 })
 
+function $(selector) {
+	return document.querySelector(selector)
+}
+
 // getUserSig接口 可以根据项目经理提供的文档在自己服务实现，此处接口服务仅作演示使用
 function getUserSig(userId) {
 	return fetch(`https://private-preview-media.easemob.com/management/room/player/usersig?name=${userId}&sdkAppId=${appId}&sdkAppKey=${appKey}`)
@@ -161,6 +125,40 @@ function getUserSig(userId) {
 
 function getTicket(roomId) {
 	return fetch(`${serverUrl}/emedia/enter_room?app_id=${appId}&user_sig=${userSig}&room_id=${roomId}&user_id=${username}&_=${+new Date}`).then(res => res.json())
+}
+
+function swithVideoToMain(item){
+	if(currentMainScreenItem){
+		currentMainScreenItem.className = ""
+	}
+	item.className = "mainScreen"
+	currentMainScreenItem = item;
+}
+
+function createMiniVideoPalyer(id, name){
+	if($('#' + id)){
+		return $('#' + id)
+	}
+	const item = document.createElement("div")
+	const videoTag = document.createElement("video")
+	const nameTag = document.createElement("span")
+	item.id = id
+	videoTag.autoplay = true
+	videoTag.playsInline = true
+	nameTag.innerText = name
+	item.addEventListener("click", () => {
+		swithVideoToMain(item)
+	})
+	item.appendChild(videoTag)
+	item.appendChild(nameTag)
+	$videoList.appendChild(item)
+	return item
+}
+
+function removeVideoPlayer(id){
+  const videoTag = $("#" + id)
+	if(!videoTag) return
+	$videoList.removeChild(videoTag)
 }
 
 function publishMediaStream(constaints, success, error){
@@ -184,7 +182,7 @@ function publishMediaStream(constaints, success, error){
 	})
 }
 
-function joinRtcRoom(roomId) {
+function joinRoom(roomId) {
 
 	if(!roomId){
 		return
@@ -199,12 +197,15 @@ function joinRtcRoom(roomId) {
 		// 加入房间并打开设备推流
 		service.join(() => {
 			publishMediaStream({ audio: true, video: true }) // 流配置
-		})
+		}, () => alert('emedia join room error'))
 	})
 }
 
 // 获取并保存用户签名
-getUserSig(username).then(res => userSig = res)
+getUserSig(username).then(res => {
+	userSig = res
+	$('#header').style.display = "flex"
+}).catch(e => alert('UserSig Error'))
 
 // 加入（创建）房间
 $("#joinRoom").addEventListener("click", () => {
@@ -212,7 +213,7 @@ $("#joinRoom").addEventListener("click", () => {
 	// 自己起个roomId
 	const roomId = document.querySelector("input").value || "room001"
 
-	joinRtcRoom(roomId)
+	joinRoom(roomId)
 
 })
 
