@@ -124,6 +124,7 @@ const service = window.service = new emedia.Service({
 				}else{
 					try{
 					console.log('play mediaStream')
+					$("#" + stream.memId + " video").muted = true
 					$("#" + stream.memId + " video").srcObject = mediaStream
 					$("#" + stream.memId + " video").play()
 					}catch(e){
