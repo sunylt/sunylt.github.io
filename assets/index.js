@@ -165,7 +165,7 @@ function publishMediaStream(constaints, success, error){
 	const	_pubS = new service.AVPubstream({
 		constaints,
 		aoff: 0,
-		voff: 1
+		voff: 0
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
 		// console.error("pubs", a, b)
@@ -286,8 +286,11 @@ $("#changeCamera").addEventListener("click", () => {
 
 $("#voff").addEventListener("click", () => {
 	// localStream && service.voff(localStream, !localStream.voff)
-
-	emedia.enableVideoTracks(localStream.getMediaStream(), true)
+	if(localStream){
+		const _voff  = !localStream.voff
+		emedia.enableVideoTracks(localStream.getMediaStream(), !_voff)
+    service.current && service.current.voff(localStream, _voff)
+	}
 })
 
 $('#shareDesktop').addEventListener("click", () => {
