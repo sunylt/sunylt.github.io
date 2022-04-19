@@ -112,7 +112,7 @@ const service = window.service = new emedia.Service({
 			const audioTrack = mediaStream.getAudioTracks()[0]
 			const customMediaStream = new MediaStream()
 			customMediaStream.addTrack(videoTrack)
-			// customMediaStream.addTrack(audioTrack)
+			customMediaStream.addTrack(audioTrack)
 
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
