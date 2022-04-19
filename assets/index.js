@@ -107,9 +107,7 @@ const service = window.service = new emedia.Service({
 			const videoTrack = mediaStream.getVideoTracks()[0]
 			const customMediaStream = new MediaStream()
 			customMediaStream.addTrack(videoTrack)
-			console.warn("+++++++++++++++", mediaStream)
-			// console.warn("+++++++++++++++", mediaStream.getVideoTracks())
-			console.log(videoTrack)
+			
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
