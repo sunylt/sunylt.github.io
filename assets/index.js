@@ -77,12 +77,13 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
+					console.log(`Play local mediaStream.`)	
 					$("#localstream video").srcObject = mediaStream
-					// $("#localstream video").play()
+					$("#localstream video").play()
 				}else{
 					console.log(`Play member's mediaStream.`)		
 					$("#" + stream.memId + " video").srcObject = mediaStream
-					// $("#" + stream.memId + " video").play()
+					$("#" + stream.memId + " video").play()
 				}
 			}
 		},
