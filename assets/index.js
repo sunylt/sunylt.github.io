@@ -158,14 +158,15 @@ function publishMediaStream(constaints, success, error){
 		name: 'video'
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
-		// console.error("pubs", a, b)
-		// document.getElementById("testVideo").srcObject = b
-		service.push(_pubS, function(stream){
+		console.warn(a, b)
+		service.push(_pubS, function(stream, c){
+			console.warn(stream, c)
 			success && success()
 			if(!$('#localstream')){
 				createMiniVideoPalyer("localstream", '我')
 			}
-			$("#localstream video").srcObject = b
+			$("#localstream video").srcObject = stream.getMediaStream()
+			console.log("local stream >>>", stream.getMediaStream())
 		}, function(err){
 			error && error(err)
 		})
