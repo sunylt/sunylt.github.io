@@ -91,6 +91,8 @@ const service = window.service = new emedia.Service({
 			const nickname = stream.located() ? "我" : stream.owner.ext.nickname || stream.owner.name
 			if(stream.located() && stream.type == 0){
 				$('#header').style.display = "none" // 自己的流进来
+			}else{
+				service.voff(0)
 			}
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
@@ -170,7 +172,7 @@ function publishMediaStream(constaints, success, error){
 	const	_pubS = new service.AVPubstream({
 		constaints,
 		aoff: 0,
-		voff: 0
+		voff: 1
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
 		// console.error("pubs", a, b)
