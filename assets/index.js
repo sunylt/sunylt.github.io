@@ -104,9 +104,13 @@ const service = window.service = new emedia.Service({
 		onUpdateStream(stream, updateObj) {
 			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
+			const videoTrack = mediaStream.getVideoTracks()[0]
 			console.warn("+++++++++++++++", mediaStream)
 			// console.warn("+++++++++++++++", mediaStream.getVideoTracks())
-			console.log(mediaStream.getVideoTracks()[0])
+			console.log(videoTrack)
+			for(t in videoTrack){
+				console.log(t + " >>>> ", videoTrack[t])
+			}
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
