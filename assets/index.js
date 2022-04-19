@@ -78,15 +78,11 @@ const service = window.service = new emedia.Service({
 						createMiniVideoPalyer("localstream", '我')
 					}
 					$("#localstream video").srcObject = mediaStream
-					$("#localstream video").play()
+					// $("#localstream video").play()
 				}else{
-					try{
-						console.log('play user mediaStream, add audio track.456')		
-						$("#" + stream.memId + " video").srcObject = mediaStream
-						$("#" + stream.memId + " video").play()
-					}catch(e){
-						console.log("play user media error", e)
-					}
+					console.log(`Play member's mediaStream.`)		
+					$("#" + stream.memId + " video").srcObject = mediaStream
+					// $("#" + stream.memId + " video").play()
 				}
 			}
 		},
