@@ -8,9 +8,11 @@ let userSig = ""
 let localStream = null
 let localSharedDesktopStream = null
 let currentMainScreenItem = null
+let pausedPlayers = []
 
 const $videoMain = $("#ui-video-main video") // 主视频
 const $videoList = $('#ui-video-list') // 成员列表
+
 
 localStorage.setItem("x_userId", username)
 
@@ -80,6 +82,9 @@ const service = window.service = new emedia.Service({
 					console.log(`Play local mediaStream.`)	
 					$("#localstream video").srcObject = mediaStream
 					$("#localstream video").play()
+					if(pausedPlayers){
+						pausedPlayers.forEach(memberPlayer => memberPlayer.play())
+					}
 				}else{
 					// 自动播放策略 https://developer.chrome.com/blog/autoplay/
 					// TRTC自动播放受限处理建议 https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-21-advanced-auto-play-policy.html 
@@ -87,7 +92,11 @@ const service = window.service = new emedia.Service({
 					// 实时音视频 TRTC 常见问题汇总---WebRTC篇 https://cloud.tencent.com/developer/article/1539376
 					console.log(`Play member's mediaStream.`)		
 					$("#" + stream.memId + " video").srcObject = mediaStream
-					$("#" + stream.memId + " video").play()
+					if(localStream){
+						$("#" + stream.memId + " video").play()
+					}else{
+						pausedPlayers.push($("#" + stream.memId + " video"))
+					}
 				}
 			}
 		},
@@ -146,8 +155,6 @@ function createMiniVideoPalyer(id, name){
 	item.id = id
 	videoTag.autoplay = true
 	videoTag.playsInline = true
-	videoTag.muted = true
-	videoTag.setAttribute("muted", "muted")
 	nameTag.innerText = name
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
