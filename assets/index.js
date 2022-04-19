@@ -46,6 +46,11 @@ function createMiniVideoPalyer(id, name){
 	item.appendChild(videoTag)
 	item.appendChild(nameTag)
 	$videoList.appendChild(item)
+	try{
+		videoTag.play()
+	}catch(e){
+		
+	}
 	return item
 }
 
@@ -91,8 +96,6 @@ const service = window.service = new emedia.Service({
 			const nickname = stream.located() ? "我" : stream.owner.ext.nickname || stream.owner.name
 			if(stream.located() && stream.type == 0){
 				$('#header').style.display = "none" // 自己的流进来
-			}else{
-				service.voff(localStream, 0)
 			}
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
@@ -119,7 +122,6 @@ const service = window.service = new emedia.Service({
 					localStream = stream
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
-						$('#localstream video').muted = true
 					}
 					$("#localstream video").srcObject = mediaStream
 					$("#localstream video").play()
@@ -172,7 +174,7 @@ function publishMediaStream(constaints, success, error){
 	const	_pubS = new service.AVPubstream({
 		constaints,
 		aoff: 0,
-		voff: 1
+		voff: 0
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
 		// console.error("pubs", a, b)
