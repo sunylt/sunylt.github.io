@@ -40,7 +40,7 @@ function createMiniVideoPalyer(id, name){
 	videoTag.playsInline = true
 	nameTag.innerText = name
 	if(id === "localstream"){
-		// videoTag.muted = true
+		videoTag.muted = true
 	}
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
@@ -104,7 +104,8 @@ const service = window.service = new emedia.Service({
 		onUpdateStream(stream, updateObj) {
 			console.log(new Date().getTime() + "stream update>>>>", stream)
 			const mediaStream = stream.getMediaStream()
-			
+			console.warn("+++++++++++++++", mediaStream)
+			console.warn("+++++++++++++++", mediaStream.getVideoTracks())
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
@@ -112,6 +113,10 @@ const service = window.service = new emedia.Service({
 			if(stream.type == 0){
 				if(stream.located()){
 					localStream = stream
+					if(!$('#localstream')){
+						createMiniVideoPalyer("localstream", '我')
+					}
+					$("#localstream video").srcObject = mediaStream
 				}else{
 					$("#" + stream.memId + " video").srcObject = mediaStream
 				}
@@ -158,15 +163,10 @@ function publishMediaStream(constaints, success, error){
 		name: 'video'
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
-		console.warn(a, b)
-		service.push(_pubS, function(stream, c){
-			console.warn(stream, c)
+		// console.error("pubs", a, b)
+		// document.getElementById("testVideo").srcObject = b
+		service.push(_pubS, function(stream){
 			success && success()
-			if(!$('#localstream')){
-				createMiniVideoPalyer("localstream", '我')
-			}
-			$("#localstream video").srcObject = stream.getMediaStream()
-			console.log("local stream >>>", stream.getMediaStream())
 		}, function(err){
 			error && error(err)
 		})
