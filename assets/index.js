@@ -121,8 +121,6 @@ const service = window.service = new emedia.Service({
 					if(!$('#localstream')){
 						createMiniVideoPalyer("localstream", '我')
 					}
-					emedia.enableVideoTracks(mediaStream, false)
-					emedia.enableVideoTracks(mediaStream, true)
 					$("#localstream video").srcObject = mediaStream
 					
 				}else{
@@ -167,8 +165,7 @@ function publishMediaStream(constaints, success, error){
 	const	_pubS = new service.AVPubstream({
 		constaints,
 		aoff: 0,
-		voff: 0,
-		name: 'video'
+		voff: 1
 	})
 	service.openUserMedia(_pubS).then(function (a, b) {
 		// console.error("pubs", a, b)
@@ -288,7 +285,9 @@ $("#changeCamera").addEventListener("click", () => {
 })
 
 $("#voff").addEventListener("click", () => {
-	localStream && service.voff(localStream, !localStream.voff)
+	// localStream && service.voff(localStream, !localStream.voff)
+
+	emedia.enableVideoTracks(localStream.getMediaStream(), true)
 })
 
 $('#shareDesktop').addEventListener("click", () => {
