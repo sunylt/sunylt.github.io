@@ -1,6 +1,6 @@
 
 const vConsole = new window.VConsole();
-const username = localStorage.getItem("x_userId")|| "x_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) // 随机一个名字
+const username = localStorage.getItem("hx_userId")|| "hx_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) // 随机一个名字
 const serverUrl = "https://private-preview-media.easemob.com"
 const appId = "827212690214645824"
 const appKey = "Y25Sak9nbnVlN1pLv3Bm5FCJBquhPsL5csn06k3AOlQ"
@@ -14,7 +14,7 @@ const $videoMain = $("#ui-video-main video") // 主视频
 const $videoList = $('#ui-video-list') // 成员列表
 
 
-localStorage.setItem("x_userId", username)
+localStorage.setItem("hx_userId", username)
 
 const emedia = window.emedia = new EmediaSDK({
 	config: {
@@ -72,7 +72,7 @@ const service = window.service = new emedia.Service({
 				if(stream.located()){
 					localStream = stream
 					if(!$('#localstream')){
-						createMiniVideoPalyer("localstream", '我')
+						createMiniVideoPalyer("localstream", `我(${username})`)
 					}
 					console.log(`Play local mediaStream.`)	
 					$("#localstream video").srcObject = mediaStream
