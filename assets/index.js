@@ -122,7 +122,8 @@ const service = window.service = new emedia.Service({
 					$("#localstream video").play()
 					
 				}else{
-					$("#" + stream.memId + " video").srcObject = customMediaStream
+					console.log('play mediaStream')
+					$("#" + stream.memId + " video").srcObject = mediaStream
 					$("#" + stream.memId + " video").play()
 				}
 			}
