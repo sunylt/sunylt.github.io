@@ -40,7 +40,7 @@ function createMiniVideoPalyer(id, name){
 	videoTag.playsInline = true
 	nameTag.innerText = name
 	if(id === "localstream"){
-		videoTag.muted = true
+		// videoTag.muted = true
 	}
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
