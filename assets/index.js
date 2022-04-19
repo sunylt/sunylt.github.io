@@ -39,9 +39,9 @@ function createMiniVideoPalyer(id, name){
 	videoTag.autoplay = true
 	videoTag.playsInline = true
 	nameTag.innerText = name
-	if(id === "localstream"){
+	// if(id === "localstream"){
 		videoTag.muted = true
-	}
+	// }
 	item.addEventListener("click", () => {
 		swithVideoToMain(item)
 	})
@@ -123,10 +123,9 @@ const service = window.service = new emedia.Service({
 					
 				}else{
 					try{
-					console.log('play mediaStream')
-					$("#" + stream.memId + " video").muted = true
-					$("#" + stream.memId + " video").srcObject = mediaStream
-					$("#" + stream.memId + " video").play()
+						console.log('play mediaStream')
+						$("#" + stream.memId + " video").srcObject = customMediaStream
+						$("#" + stream.memId + " video").play()
 					}catch(e){
 						console.log("xxxx", e)
 					}
