@@ -292,7 +292,7 @@ $('#shareDesktop').addEventListener("click", () => {
 	// 配置共享桌面选项
 	const shareStream = new service.ShareDesktopPubstream({
     voff: 0,
-    aoff: 0,
+    aoff: 1,
     isAgentShare: true,
     ext: {},
     screenOptions: ['screen', 'window', 'tab']
