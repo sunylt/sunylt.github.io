@@ -1,24 +1,20 @@
-
 const vConsole = new window.VConsole();
 const username = localStorage.getItem("hx_userId")|| "hx_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) // 随机一个名字
 const serverUrl = "https://private-preview-media.easemob.com"
 const appId = "827212690214645824"
 const appKey = "Y25Sak9nbnVlN1pLv3Bm5FCJBquhPsL5csn06k3AOlQ"
+
 let userSig = ""
 let localStream = null
 let localSharedDesktopStream = null
 let currentMainScreenItem = null
 let pausedPlayers = []
 
-const $videoMain = $("#ui-video-main video") // 主视频
 const $videoList = $('#ui-video-list') // 成员列表
-
-
-localStorage.setItem("hx_userId", username)
 
 const emedia = window.emedia = new EmediaSDK({
 	config: {
-    LOG_LEVEL: 3
+		LOG_LEVEL: 3
 	}
 })
 
@@ -48,7 +44,7 @@ const service = window.service = new emedia.Service({
 
 		// 流的增加，仅用于统计人数，不处理流
 		onAddStream(stream) {
-			console.log(new Date().getTime() + "stream add>>>>", stream)
+			console.log(new Date() + "stream add >>>> ", stream)
 			const nickname = stream.located() ? "我" : stream.owner.ext.nickname || stream.owner.name
 			if(stream.located() && stream.type == 0){
 				$('#header').style.display = "none" // 自己的流进来
@@ -61,7 +57,7 @@ const service = window.service = new emedia.Service({
 
 		// 某成员的流退出（包含本地流、音视频流，共享桌面等）
 		onUpdateStream(stream, updateObj) {
-			console.log(new Date().getTime() + "stream update>>>>", stream)
+			console.log(new Date() + " stream update >>>> ", stream)
 			const mediaStream = stream.getMediaStream()
 
 			// 针对桌面共享单独处理
@@ -126,9 +122,9 @@ function $(selector) {
 	return document.querySelector(selector)
 }
 
-// getUserSig接口 可以根据项目经理提供的文档在自己服务实现，此处接口服务仅作演示使用
+// getUserSig接口 可以根据项目经理提供的文档在自己服务实现，此处接口服务仅作演示使用，私有部署可能无此接口
 function getUserSig(userId) {
-	return fetch(`https://private-preview-media.easemob.com/management/room/player/usersig?name=${userId}&sdkAppId=${appId}&sdkAppKey=${appKey}`)
+	return fetch(`${serverUrl}/management/room/player/usersig?name=${userId}&sdkAppId=${appId}&sdkAppKey=${appKey}`)
 	.then(res => res.text())
 }
 
@@ -176,26 +172,22 @@ function publishMediaStream(constaints, success, error){
 		aoff: 0,
 		voff: 0
 	})
-	service.openUserMedia(_pubS).then(function (a, b) {
-		// console.error("pubs", a, b)
-		// document.getElementById("testVideo").srcObject = b
-		service.push(_pubS, function(stream){
-			success && success()
-		}, function(err){
-			alert("Push Stream Error.")
+	service.openUserMedia(_pubS).then( () => {
+		service.push(_pubS, stream => {
+			success && success(stream)
+		}, err => {
+			alert("Push mediaStream error.")
 			error && error(err)
 		})
-	}, function(err){
-		alert("OpenUserMedia Error.")
+	}, err => {
+		alert("OpenUserMedia error.")
 		error && error(err)
 	})
 }
 
 function joinRoom(roomId) {
 
-	if(!roomId){
-		return
-	}
+	if(!roomId) return
 	
 	// 获取进入指定房间的ticket
 	getTicket(roomId).then(result => {
@@ -203,10 +195,10 @@ function joinRoom(roomId) {
 		// 设置要加入房间ticket
 		service.setup(result.ticket, { role: '', avatar: '', nickname: username })
 
-		// 加入房间并打开设备推流
+		// 加入房间然后打开设备并推流
 		service.join(() => {
 			publishMediaStream({ audio: true, video: true }) // 流配置
-		}, () => alert('emedia join room error'))
+		}, () => alert('Join room error.'))
 	})
 }
 
@@ -214,14 +206,18 @@ function joinRoom(roomId) {
 getUserSig(username).then(res => {
 	userSig = res
 	$('#header').style.display = "flex"
-}).catch(e => alert('UserSig Error'))
+
+	// 本地记下随机用户名
+	if(!localStorage.getItem("hx_userId")){
+		localStorage.setItem("hx_userId", username)
+	}
+}).catch(e => alert('Fetch userSig error.'))
 
 // 加入（创建）房间
 $("#joinRoom").addEventListener("click", () => {
 
 	// 自己起个roomId
-	const roomId = document.querySelector("input").value || "room001"
-
+	const roomId = $("#header input").value || "room001"
 	joinRoom(roomId)
 
 })
@@ -236,33 +232,7 @@ $("#destroyRoom").addEventListener("click", () => {
 	service.exit(true)
 })
 
-// $('#userCamera').addEventListener("click", () => {
-// 	if(!localStream) return
-
-// 	service.hungup(localStream.id)
-// 	publishMediaStream({
-// 		audio: true,
-// 		video: true
-// 	})
-// })
-
-// $('#backCamera').addEventListener("click", () => {
-// 	if(!localStream) return
-
-// 	service.hungup(localStream.id)
-// 	publishMediaStream({
-// 		audio: true,
-// 		video: { facingMode: { exact: "environment" } }
-// 	}, () => {
-
-// 	}, () => {
-// 		publishMediaStream({
-// 			audio: true,
-// 			video: true
-// 		})
-// 	})
-// })
-
+// 切换摄像头
 $("#changeCamera").addEventListener("click", () => {
 		let videoOptions = null
 
@@ -296,16 +266,15 @@ $("#changeCamera").addEventListener("click", () => {
 
 })
 
+// 画面开关
 $("#voff").addEventListener("click", () => {
 	localStream && service.voff(localStream, !localStream.voff)
-	// if(localStream){
-	// 	const _voff  = !localStream.voff
-	// 	emedia.enableVideoTracks(localStream.getMediaStream(), !_voff)
-  //   service.current && service.current.voff(localStream, _voff)
-	// }
 })
 
+// 共享桌面，手机端无效
 $('#shareDesktop').addEventListener("click", () => {
+
+	if(navigator.userAgent.includes("Mobile")) return
 
 	// 无开启的会议
 	if(!localStream || localSharedDesktopStream){
@@ -332,10 +301,9 @@ $('#shareDesktop').addEventListener("click", () => {
 			deskMediaStream.getVideoTracks()[0].onended = function(){
 				service.hungup(localShareStream.id)
 			}
-			localSharedDesktopStream = localShareStream
-		}, (
 
-		) => {})
+			localSharedDesktopStream = localShareStream
+		})
 	})
 
 })
