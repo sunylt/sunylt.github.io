@@ -208,9 +208,9 @@ function joinRoom(roomId) {
 		service.setup(result.ticket, { role: '', avatar: '', nickname: username })
 
 		// 加入房间然后打开设备并推流
-		// service.join(() => {
-		// 	publishMediaStream({ audio: true, video: true }) // 流配置
-		// }, () => alert('Join room error.'))
+		service.join(() => {
+			// publishMediaStream({ audio: true, video: true }) // 流配置
+		}, () => alert('Join room error.'))
 	})
 }
 
