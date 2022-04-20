@@ -314,6 +314,8 @@ $('#shareDesktop').addEventListener("click", () => {
 			}
 
 			localSharedDesktopStream = localShareStream
+		}, error => {
+			console.error("Push shareStream error.", error)
 		})
 	})
 
