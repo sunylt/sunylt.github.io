@@ -44,6 +44,7 @@ const service = window.service = new $emedia.Service({
 
 		// 流的增加，仅用于统计人数，不处理流
 		onAddStream(stream) {
+			return
 			console.log(new Date() + "stream add >>>> ", stream)
 			const nickname = stream.located() ? "我" : stream.owner.ext.nickname || stream.owner.name
 			if(stream.located() && stream.type == 0){
@@ -60,6 +61,7 @@ const service = window.service = new $emedia.Service({
 			console.log(new Date() + " stream update >>>> ", stream)
 			const mediaStream = stream.getMediaStream()
 
+			return
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
@@ -207,7 +209,7 @@ function joinRoom(roomId) {
 
 		// 加入房间然后打开设备并推流
 		service.join(() => {
-			// publishMediaStream({ audio: true, video: true }) // 流配置
+			publishMediaStream({ audio: true, video: true }) // 流配置
 		}, () => alert('Join room error.'))
 	})
 }
