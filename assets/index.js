@@ -63,6 +63,13 @@ const service = window.service = new emedia.Service({
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
 				$("#" + stream.id + " video").srcObject = mediaStream
+
+				// 如果localStream还没进来，已加入的成员 player 不调用 play()
+				if(localStream){
+					$("#" + stream.id + " video").play()
+				}else{
+					pausedPlayers.push($("#" + stream.id + " video"))
+				}
 			}
 			if(stream.type == 0){
 				if(stream.located()){
