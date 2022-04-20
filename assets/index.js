@@ -12,13 +12,13 @@ let pausedPlayers = []
 
 const $videoList = $('#ui-video-list') // 成员列表
 
-window.emedia = new EmediaSDK({
+const SDK = new EmediaSDK({
 	config: {
 		LOG_LEVEL: 0
 	}
 })
 
-const service = window.service = new emedia.Service({
+const service = window.service = new SDK.Service({
 	listeners: {
 		onMeExit(...rest) {
 			console.log('触发onMeExit，原因:', ...rest)
