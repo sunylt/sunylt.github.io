@@ -12,9 +12,9 @@ let pausedPlayers = []
 
 const $videoList = $('#ui-video-list') // 成员列表
 
-const emedia = window.emedia = new EmediaSDK({
+window.emedia = new EmediaSDK({
 	config: {
-		LOG_LEVEL: 3
+		LOG_LEVEL: 0
 	}
 })
 
