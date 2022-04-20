@@ -183,13 +183,13 @@ function publishMediaStream(constaints, success, error){
 	})
 	console.log("open _pubS", _pubS)
 	service.openUserMedia(_pubS).then( () => {
-		service.push(_pubS, stream => {
-			success && success(stream)
-		}, err => {
-			alert("Push mediaStream error.")
-			console.log("Push mediaStream error", err)
-			error && error(err)
-		})
+		// service.push(_pubS, stream => {
+		// 	success && success(stream)
+		// }, err => {
+		// 	alert("Push mediaStream error.")
+		// 	console.log("Push mediaStream error", err)
+		// 	error && error(err)
+		// })
 	}, err => {
 		alert("OpenUserMedia error.")
 		console.log("OpenUserMedia error", err)
@@ -209,7 +209,7 @@ function joinRoom(roomId) {
 
 		// 加入房间然后打开设备并推流
 		service.join(() => {
-			// publishMediaStream({ audio: true, video: true }) // 流配置
+			publishMediaStream({ audio: true, video: true }) // 流配置
 		}, () => alert('Join room error.'))
 	})
 }
