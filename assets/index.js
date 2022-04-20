@@ -213,6 +213,7 @@ function joinRoom(roomId) {
 }
 
 console.log("RTCPeerConnection >>", window.RTCPeerConnection)
+console.log("mediaDevices >>", window.navigator.mediaDevices)
 
 // 获取并保存用户签名
 getUserSig(username).then(res => {
