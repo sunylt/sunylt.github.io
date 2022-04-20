@@ -246,36 +246,35 @@ $("#destroyRoom").addEventListener("click", () => {
 
 // 切换摄像头
 $("#changeCamera").addEventListener("click", () => {
-		let videoOptions = null
+	let videoOptions = null
 
-		if(!localStream || localStream.voff) return
-		
-		if(localStream.constaints.video === true) {
+	if(!localStream || localStream.voff) return
+	
+	if(localStream.constaints.video === true) {
+		videoOptions = { facingMode: { exact: "environment" } }
+	}else if(typeof localStream.constaints.video === "object"){
+		if(typeof localStream.constaints.video.facingMode  === "object"){
+			videoOptions = true
+		}else{
 			videoOptions = { facingMode: { exact: "environment" } }
-		}else if(typeof localStream.constaints.video === "object"){
-			if(typeof localStream.constaints.video.facingMode  === "object"){
-				videoOptions = true
-			}else{
-				videoOptions = { facingMode: { exact: "environment" } }
-			}
 		}
+	}
 
-		// 先结束当前流释放出设备 否则有的终端无法直接切换调用其它硬件
-		service.hungup(localStream.id)
+	// 先结束当前流释放出设备 否则有的终端无法直接切换调用其它硬件
+	service.hungup(localStream.id)
 
+	publishMediaStream({
+		audio: localStream.constaints.audio,
+		video: videoOptions
+	}, () => {
+		console.log("摄像头切换成功")
+	}, err => {
+		console.log("摄像头切换失败", err)
 		publishMediaStream({
 			audio: localStream.constaints.audio,
-			video: videoOptions
-		}, () => {
-			console.log("摄像头切换成功")
-		}, err => {
-			console.log("摄像头切换失败", err)
-			publishMediaStream({
-				audio: localStream.constaints.audio,
-				video: localStream.constaints.video
-			})
+			video: localStream.constaints.video
 		})
-
+	})
 })
 
 // 画面开关
