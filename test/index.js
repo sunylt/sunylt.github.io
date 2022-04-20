@@ -91,7 +91,7 @@ const service = window.service = new $emedia.Service({
 					// TRTC微信autoplay问题 https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-02-info-webrtc-issues.html#h2-8
 					// 实时音视频 TRTC 常见问题汇总---WebRTC篇 https://cloud.tencent.com/developer/article/1539376
 					console.log(`Play member's mediaStream.`)		
-					$("#" + stream.memId + " video").srcObject = mediaStream
+					// $("#" + stream.memId + " video").srcObject = mediaStream
 
 					// 如果localStream还没进来，已加入的成员 player 不调用 play()
 					// if(localStream){
