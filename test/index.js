@@ -78,7 +78,7 @@ const service = window.service = new $emedia.Service({
 						createMiniVideoPalyer("localstream", `我(${username})`)
 					}
 					console.log(`Play local mediaStream.`)	
-					$("#localstream video").srcObject = mediaStream
+					// $("#localstream video").srcObject = mediaStream
 					// $("#localstream video").play()
 					// $("#localstream video").muted = true // 自己永远静音
 					// if(pausedPlayers){
