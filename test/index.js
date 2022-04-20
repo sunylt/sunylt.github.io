@@ -182,14 +182,15 @@ function publishMediaStream(constaints, success, error){
 		voff: 0
 	})
 	console.log("open _pubS", _pubS)
-	service.openUserMedia(_pubS).then( () => {
-		service.push(_pubS, stream => {
-			success && success(stream)
-		}, err => {
-			alert("Push mediaStream error.")
-			console.log("Push mediaStream error", err)
-			error && error(err)
-		})
+	service.openUserMedia(_pubS).then( (a, b) => {
+		console.log('openUserMedia success', a, b)
+		// service.push(_pubS, stream => {
+		// 	success && success(stream)
+		// }, err => {
+		// 	alert("Push mediaStream error.")
+		// 	console.log("Push mediaStream error", err)
+		// 	error && error(err)
+		// })
 	}, err => {
 		alert("OpenUserMedia error.")
 		console.log("OpenUserMedia error", err)
