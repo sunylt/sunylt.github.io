@@ -12,13 +12,13 @@ let pausedPlayers = []
 
 const $videoList = $('#ui-video-list') // 成员列表
 
-const SDK = new EmediaSDK({
+const $emedia = new EmediaSDK({
 	config: {
 		LOG_LEVEL: 0
 	}
 })
 
-const service = window.service = new SDK.Service({
+const service = window.service = new $emedia.Service({
 	listeners: {
 		onMeExit(...rest) {
 			console.log('触发onMeExit，原因:', ...rest)
@@ -211,6 +211,8 @@ function joinRoom(roomId) {
 		}, () => alert('Join room error.'))
 	})
 }
+
+console.log("RTCPeerConnection >>", window.RTCPeerConnection)
 
 // 获取并保存用户签名
 getUserSig(username).then(res => {
