@@ -207,7 +207,9 @@ function joinRoom(roomId) {
 
 		// 加入房间然后打开设备并推流
 		service.join(() => {
-			publishMediaStream({ audio: true, video: true }) // 流配置
+			publishMediaStream({ audio: true, video: true }, () => {
+				console.log("Join room and publish mediaStream success.")
+			})
 		}, () => alert('Join room error.'))
 	})
 }
