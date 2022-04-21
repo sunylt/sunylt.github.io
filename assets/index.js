@@ -1,4 +1,4 @@
-const vConsole = new window.VConsole();
+// const vConsole = new window.VConsole();
 const username = localStorage.getItem("hx_userId")|| "hx_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) // 随机一个名字
 const serverUrl = "https://private-preview-media.easemob.com"
 const appId = "827212690214645824"
@@ -181,13 +181,14 @@ function publishMediaStream(constaints, success, error){
 	})
 	console.log("open _pubS", _pubS)
 	service.openUserMedia(_pubS).then( () => {
-		service.push(_pubS, stream => {
-			success && success(stream)
-		}, err => {
-			alert("Push mediaStream error.")
-			console.log("Push mediaStream error", err)
-			error && error(err)
-		})
+		service.push(_pubS)
+		// service.push(_pubS, stream => {
+		// 	success && success(stream)
+		// }, err => {
+		// 	alert("Push mediaStream error.")
+		// 	console.log("Push mediaStream error", err)
+		// 	error && error(err)
+		// })
 	}, err => {
 		alert("OpenUserMedia error.")
 		console.log("OpenUserMedia error", err)
