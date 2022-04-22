@@ -1,4 +1,4 @@
-// const vConsole = new window.VConsole();
+const vConsole = new window.VConsole();
 const username = localStorage.getItem("hx_userId")|| "hx_" + (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1) // 随机一个名字
 const serverUrl = "https://private-preview-media.easemob.com"
 const appId = "827212690214645824"
@@ -33,7 +33,7 @@ const service = window.service = new $emedia.Service({
 			console.log("member add>>>>", member)
 			const name = member.ext.nickname || member.nickName || member.name || member.memName 
 			// 成员播放器创建
-			createMiniVideoPalyer(member.id, name)
+			createMiniPlayer(member.id, name)
 		},
 
 		onRemoveMember(member) {
@@ -48,10 +48,11 @@ const service = window.service = new $emedia.Service({
 			const nickname = stream.located() ? "我" : stream.owner.ext.nickname || stream.owner.name
 			if(stream.located() && stream.type == 0){
 				$('#header').style.display = "none" // 自己的流进来
+				createMiniPlayer("localstream", `我(${username})`)
 			}
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
-				createMiniVideoPalyer(stream.id, nickname + "的桌面")
+				createMiniPlayer(stream.id, nickname + "的桌面")
 			}
 		},
 
@@ -62,25 +63,24 @@ const service = window.service = new $emedia.Service({
 
 			// 针对桌面共享单独处理
 			if(stream.type == 1){
-				$("#" + stream.id + " video").srcObject = mediaStream
+				const videoPlayer = $("#" + stream.id + " video")
+				videoPlayer.srcObject = mediaStream
 
 				// 如果localStream还没进来，已加入的成员 player 不调用 play()
 				if(localStream){
-					$("#" + stream.id + " video").play()
+					videoPlayer.play()
 				}else{
-					pausedPlayers.push($("#" + stream.id + " video"))
+					pausedPlayers.push(videoPlayer)
 				}
 			}
 			if(stream.type == 0){
 				if(stream.located()){
+					const localPlayer =  $("#localstream video")// 无则创建，有则返回
+					console.log(`Play local mediaStream.`, localPlayer)	
 					localStream = stream
-					if(!$('#localstream')){
-						createMiniVideoPalyer("localstream", `我(${username})`)
-					}
-					console.log(`Play local mediaStream.`)	
-					$("#localstream video").srcObject = mediaStream
-					$("#localstream video").play()
-					$("#localstream video").muted = true // 自己永远静音
+					localPlayer.srcObject = mediaStream
+					localPlayer.play()
+					localPlayer.muted = true // 自己永远静音
 					if(pausedPlayers){
 						pausedPlayers.forEach(memberPlayer => memberPlayer.play())
 						pausedPlayers = []
@@ -90,14 +90,15 @@ const service = window.service = new $emedia.Service({
 					// TRTC自动播放受限处理建议 https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-21-advanced-auto-play-policy.html 
 					// TRTC微信autoplay问题 https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-02-info-webrtc-issues.html#h2-8
 					// 实时音视频 TRTC 常见问题汇总---WebRTC篇 https://cloud.tencent.com/developer/article/1539376
-					console.log(`Play member's mediaStream.`)		
-					$("#" + stream.memId + " video").srcObject = mediaStream
+					const memberPlayer = $("#" + stream.memId + " video")
+					console.log(`Play member's mediaStream.`)
+					memberPlayer.srcObject = mediaStream
 
 					// 如果localStream还没进来，已加入的成员 player 不调用 play()
 					if(localStream){
-						$("#" + stream.memId + " video").play()
+						memberPlayer.play()
 					}else{
-						pausedPlayers.push($("#" + stream.memId + " video"))
+						pausedPlayers.push(memberPlayer)
 					}
 				}
 			}
@@ -147,7 +148,7 @@ function swithVideoToMain(item){
 	currentMainScreenItem = item;
 }
 
-function createMiniVideoPalyer(id, name){
+function createMiniPlayer(id, name){
 	if($('#' + id)){
 		return $('#' + id)
 	}
@@ -190,7 +191,7 @@ function publishMediaStream(constaints, success, error){
 		// 	error && error(err)
 		// })
 	}, err => {
-		alert("OpenUserMedia error.")
+		alert("openUserMedia error, check your camera/mic or media permission.")
 		console.log("OpenUserMedia error", err)
 		error && error(err)
 	})
@@ -212,7 +213,7 @@ function joinRoom(roomId) {
 				console.log("Join room and publish mediaStream success.")
 			})
 		}, () => alert('Join room error.'))
-	})
+	}).catch(e => alert('Ticket error, change the roomId and try again.'))
 }
 
 console.log("RTCPeerConnection >>", window.RTCPeerConnection)
