@@ -61,7 +61,7 @@ const service = window.service = new $emedia.Service({
 			console.log(new Date() + " stream update >>>> ", stream)
 			const mediaStream = stream.getMediaStream()
 
-			// 针对桌面共享单独处理
+			// type 1 桌面共享
 			if(stream.type == 1){
 				const videoPlayer = $("#" + stream.id + " video")
 				videoPlayer.srcObject = mediaStream
@@ -73,9 +73,13 @@ const service = window.service = new $emedia.Service({
 					pausedPlayers.push(videoPlayer)
 				}
 			}
+
+			//type 0 音视频通话
 			if(stream.type == 0){
+
+				// located()=>true 当前用户
 				if(stream.located()){
-					const localPlayer =  $("#localstream video")// 无则创建，有则返回
+					const localPlayer =  $("#localstream video")
 					console.log(`Play local mediaStream.`, localPlayer)	
 					localStream = stream
 					localPlayer.srcObject = mediaStream
