@@ -186,14 +186,13 @@ function publishMediaStream(constaints, success, error){
 	})
 	console.log("open _pubS", _pubS)
 	service.openUserMedia(_pubS).then( () => {
-		service.push(_pubS)
-		// service.push(_pubS, stream => {
-		// 	success && success(stream)
-		// }, err => {
-		// 	alert("Push mediaStream error.")
-		// 	console.log("Push mediaStream error", err)
-		// 	error && error(err)
-		// })
+		service.push(_pubS, stream => {
+			success && success(stream)
+		}, err => {
+			alert("Push mediaStream error.")
+			console.log("Push mediaStream error", err)
+			error && error(err)
+		})
 	}, err => {
 		alert("openUserMedia error, check your camera/mic or media permission.")
 		console.log("OpenUserMedia error", err)
@@ -326,6 +325,8 @@ $('#shareDesktop').addEventListener("click", () => {
 		}, error => {
 			console.error("Push shareStream error.", error)
 		})
+	}, error => {
+		console.log(error)
 	})
 
 })
