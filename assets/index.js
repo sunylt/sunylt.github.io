@@ -8,7 +8,7 @@ let userSig = ""
 let localStream = null
 let localSharedDesktopStream = null
 let currentMainScreenItem = null
-let pausedPlayers = []
+let cachedPlayers = []
 
 const $videoList = $('#ui-video-list') // 成员列表
 
@@ -70,7 +70,7 @@ const service = window.service = new $emedia.Service({
 				if(localStream){
 					videoPlayer.play()
 				}else{
-					pausedPlayers.push(videoPlayer)
+					cachedPlayers.push(videoPlayer)
 				}
 			}
 
@@ -85,9 +85,9 @@ const service = window.service = new $emedia.Service({
 					localPlayer.srcObject = mediaStream
 					localPlayer.play()
 					localPlayer.muted = true // 自己永远静音
-					if(pausedPlayers){
-						pausedPlayers.forEach(memberPlayer => memberPlayer.play())
-						pausedPlayers = []
+					if(cachedPlayers.length){
+						cachedPlayers.forEach(memberPlayer => memberPlayer.play())
+						cachedPlayers = []
 					}
 				}else{
 					// 自动播放策略 https://developer.chrome.com/blog/autoplay/
@@ -102,7 +102,7 @@ const service = window.service = new $emedia.Service({
 					if(localStream){
 						memberPlayer.play()
 					}else{
-						pausedPlayers.push(memberPlayer)
+						cachedPlayers.push(memberPlayer)
 					}
 				}
 			}
