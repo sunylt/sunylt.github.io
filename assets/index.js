@@ -237,7 +237,7 @@ getUserSig(username).then(res => {
 $("#joinRoom").addEventListener("click", () => {
 
 	// 自己起个roomId
-	const roomId = $("#header input").value || "room001"
+	const roomId = $("#header input").value || "test01"
 	joinRoom(roomId)
 
 })
