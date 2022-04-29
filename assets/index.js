@@ -214,7 +214,7 @@ function joinRoom(roomId) {
 		service.join(() => {
 			publishMediaStream({ audio: true, video: true }, () => {
 				console.log("Join room and publish mediaStream success.")
-			})
+			}, () => service.exit())
 		}, () => alert('Join room error.'))
 	}).catch(e => alert('Ticket error, change the roomId and try again.'))
 }
