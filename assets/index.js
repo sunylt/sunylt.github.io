@@ -194,7 +194,7 @@ function publishMediaStream(constaints, success, error){
 			error && error(err)
 		})
 	}, err => {
-		alert("openUserMedia error, check your camera/mic or media permission.")
+		// alert("openUserMedia error, check your camera/mic or media permission.")
 		console.log("OpenUserMedia error", err)
 		error && error(err)
 	})
